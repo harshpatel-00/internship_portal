@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Admin Dashboard</h2>
+
+    <h4 class="mb-3">Pending Recruiter Verifications</h4>
+
+    {% if pending_requests %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Institution</th>
+                        <th>Position</th>
+                        <th>ID Proof</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in pending_requests %}
+                    <tr>
+                        <td>{{ request.full_name }}</td>
+                        <td>{{ request.email }}</td>
+                        <td>{{ request.institution }}</td>
+                        <td>{{ request.position }}</td>
+                        <td>
+                            {% if request.id_proof %}
+                                <a href="{{ request.id_proof.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    View ID
+                                </a>
+                            {% else %}
+                                No file
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <!-- Approve Form -->
+                                <form method="POST" action="{% url 'approve_recruiter' request.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+
+                                <!-- Reject Form -->
+                                <form method="POST" action="{% url 'reject_recruiter' request.pk %}" onsubmit="return confirm('Are you sure you want to reject this recruiter?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No pending recruiter verification requests.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Update Profile</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="id_first_name" class="form-label">First Name</label>
+                        {{ form.first_name|add_class:"form-control" }}
+                    </div>
+                    <div class="col">
+                        <label for="id_last_name" class="form-label">Last Name</label>
+                        {{ form.last_name|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    {{ form.email|add_class:"form-control" }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_mobile_number" class="form-label">Mobile Number</label>
+                    {{ form.mobile_number|add_class:"form-control" }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_location" class="form-label">Location</label>
+                    {{ form.location|add_class:"form-control" }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_college_name" class="form-label">College Name</label>
+                    {{ form.college_name|add_class:"form-control" }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_last_semester_grade" class="form-label">Last Semester Grade (CPI/SPI/CGPA)</label>
+                    {{ form.last_semester_grade|add_class:"form-control" }}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Date Joined</label>
+                    <input type="text" value="{{ user.date_joined|date:"Y-m-d H:i" }}" class="form-control" disabled>
+                </div>
+
+
+                <div class="d-grid mb-2">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'password_change' %}" class="btn btn-outline-secondary">Change Password</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<p style="font-family: Arial, sans-serif; font-size: 15px; color: #333;">
+    Hi {{ user.username }},
+</p>
+
+<p style="font-family: Arial, sans-serif; font-size: 15px; color: #333;">
+    Thank you for registering at <strong>Internship Portal</strong>!
+</p>
+
+<p style="font-family: Arial, sans-serif; font-size: 15px; color: #333;">
+    Please confirm your email address by clicking the button below:
+</p>
+
+<p style="text-align: center;">
+    <a href="http://{{ domain }}{% url 'activate_account' uidb64=uid token=token %}"
+       style="background-color: #198754; color: white; padding: 10px 20px; text-decoration: none;
+              border-radius: 5px; font-family: Arial, sans-serif;">
+        Confirm Email
+    </a>
+</p>
+
+<p style="font-family: Arial, sans-serif; font-size: 14px; color: #666;">
+    If you didn’t sign up for this account, you can safely ignore this email.
+</p>
+
+<p style="font-family: Arial, sans-serif; font-size: 15px; color: #333;">
+    Best regards,<br>
+    Internship Portal Team
+</p>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2> Student Profile</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>{{ student.username }}</h4>
+            <p><strong>Full Name:</strong> {{ student.first_name }} {{ student.last_name }}</p>
+            <p><strong>Email:</strong> {{ student.email }}</p>
+            <p><strong>Location:</strong> {{ student.location }}</p>
+            <p><strong>College:</strong> {{ student.college_name }}</p>
+            <p><strong>Mobile Number:</strong> {{ student.mobile_number }}</p>
+            <p><strong>Last Semester Grade:</strong> {{ student.last_semester_grade }}</p>
+            <p><strong>Date Joined:</strong> {{ student.date_joined|date:"Y-m-d H:i" }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

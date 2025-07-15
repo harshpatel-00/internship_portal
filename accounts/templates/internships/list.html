@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Available Internships</h2>
+
+    <!-- Search Form -->
+    <form method="GET" class="mb-4 d-flex">
+        <input type="text" name="q" class="form-control me-2" placeholder="Search by title, company, or location" value="{{ query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if page_obj %}
+        {% for internship in page_obj %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">{{ internship.title }}</h4>
+                <p><strong>Company:</strong> {{ internship.posted_by.username }}</p>
+                <p><strong>Location:</strong> {{ internship.location }}</p>
+                <p><strong>Stipend:</strong> {{ internship.stipend }}</p>
+                <p><strong>Duration:</strong> {{ internship.duration }}</p>
+                <p>{{ internship.description }}</p>
+
+                {% if user.is_authenticated and user.role == 'student' %}
+                    {% if internship.id in applied_ids %}
+                        <span class="badge bg-secondary">Already Applied</span>
+                    {% else %}
+                        <form method="POST" action="{% url 'apply_for_internship' internship.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Apply</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Pagination Controls -->
+        <nav>
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?q={{ query }}&page={{ num }}">{{ num }}</a>
+              </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+    {% else %}
+        <p>No internships available.</p>
+    {% endif %}
+</div>
+{% endblock %}

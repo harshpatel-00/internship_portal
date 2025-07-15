@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h3 class="mb-3">{{ student.get_full_name }} ({{ student.username }})</h3>
+            <p><strong>Email:</strong> {{ student.email }}</p>
+            <p><strong>Mobile:</strong> {{ student.mobile_number }}</p>
+            <p><strong>Location:</strong> {{ student.location }}</p>
+            <p><strong>College:</strong> {{ student.college_name }}</p>
+            <p><strong>Last Semester Grade:</strong> {{ student.last_semester_grade }}</p>
+            <p><strong>Joined:</strong> {{ student.date_joined|date:"Y-m-d H:i" }}</p>
+            <a href="{% url 'recruiter_applicants' %}" class="btn btn-secondary mt-3">Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

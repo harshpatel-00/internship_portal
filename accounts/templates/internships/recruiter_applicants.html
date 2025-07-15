@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Applicants for Your Internships</h2>
+
+    {% if page_obj %}
+        <div class="table-responsive">
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Internship</th>
+                        <th>Applicant</th>
+                        <th>Email</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in page_obj %}
+                    <tr>
+                        <td>{{ app.internship.title }}</td>
+                        <td>
+                            <a href="{% url 'student_detail' app.student.id %}" class="text-decoration-none">
+                                {{ app.student.username }}
+                            </a>
+                        </td>
+                        <td>{{ app.student.email }}</td>
+                        <td>{{ app.applied_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if app.status|lower == "pending" %}
+                                <span class="badge bg-warning text-dark text-capitalize">{{ app.status }}</span>
+                            {% elif app.status|lower == "approved" %}
+                                <span class="badge bg-success text-capitalize">{{ app.status }}</span>
+                            {% elif app.status|lower == "rejected" %}
+                                <span class="badge bg-danger text-capitalize">{{ app.status }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if app.status|lower == "pending" %}
+                            <form method="POST" action="{% url 'update_application_status' app.id %}">
+                                {% csrf_token %}
+                                <div class="d-flex gap-2">
+                                    <button type="submit" name="status" value="approved" class="btn btn-sm btn-success" title="Approve this student">Approve</button>
+                                    <button type="submit" name="status" value="rejected" class="btn btn-sm btn-danger" title="Reject this student">Reject</button>
+                                </div>
+                            </form>
+                            {% else %}
+                                <em>No actions</em>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination controls -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+    {% else %}
+        <p>No one has applied to your internships yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
