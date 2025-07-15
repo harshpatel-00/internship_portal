@@ -20,6 +20,7 @@ urlpatterns = [
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/approve-recruiter/<int:pk>/', views.approve_recruiter, name='approve_recruiter'),
     path('admin/reject-recruiter/<int:pk>/', views.reject_recruiter, name='reject_recruiter'),
+    path('create-admin/', views.create_admin_user),
 
 
     # Profile
