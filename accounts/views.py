@@ -23,7 +23,7 @@ from django.utils.timezone import now
 from .models import RecruiterVerification
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-
+from django.contrib.auth import get_user_model
 
 
 @login_required
@@ -281,3 +281,21 @@ def setup_recruiter_account(request, pk):
         form = RecruiterAccountSetupForm()
     return render(request, 'accounts/setup_recruiter_account.html', {'form': form, 'verification': verification})
 
+
+def secure_create_superuser(request):
+    if request.GET.get('key') != settings.SECRET_ADMIN_KEY:
+        return HttpResponse("Unauthorized", status=401)
+
+    User = get_user_model()
+    if not User.objects.filter(email="kun.darling.25@gmail.com").exists():
+        User.objects.create_superuser(
+            username="recruiter_verifier",
+            email="kun.darling.25@gmail.com",
+            password="admin@123789",
+            first_name="recruiter",
+            last_name="verifier",
+            role="admin"  # If you use a 'role' field
+        )
+        return HttpResponse("Superuser created.")
+    else:
+        return HttpResponse("Superuser already exists.")
