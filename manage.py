@@ -2,7 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import django
+from django.core.management import call_command
 
 def main():
     """Run administrative tasks."""
@@ -20,3 +21,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "internship_portal.settings")
+    django.setup()
+    call_command('migrate')

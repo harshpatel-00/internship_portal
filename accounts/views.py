@@ -23,7 +23,7 @@ from django.utils.timezone import now
 from .models import RecruiterVerification
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-from django.contrib.auth import get_user_model
+
 
 
 @login_required
@@ -281,11 +281,3 @@ def setup_recruiter_account(request, pk):
         form = RecruiterAccountSetupForm()
     return render(request, 'accounts/setup_recruiter_account.html', {'form': form, 'verification': verification})
 
-
-def create_admin_user(request):
-    User = get_user_model()
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser(username='admin', email='admin@example.com', password='admin123')
-        return HttpResponse("Superuser created successfully.")
-    else:
-        return HttpResponse("Admin user already exists.")
