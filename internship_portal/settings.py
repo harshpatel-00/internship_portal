@@ -150,7 +150,7 @@ EMAIL_HOST_USER = 'kun.darling.25@gmail.com'
 EMAIL_HOST_PASSWORD = 'lfnm asla cfdx zpfd'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
+LOGIN_URL = '/admin/login/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
 LOGOUT_REDIRECT_URL = '/'
 # PASSWORD_CHANGE_REDIRECT_URL = '/accounts/profile/'
