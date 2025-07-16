@@ -283,19 +283,32 @@ def setup_recruiter_account(request, pk):
 
 
 def secure_create_superuser(request):
+    print("Secure superuser creation triggered.")  # Log entry point
+
     if request.GET.get('key') != settings.SECRET_ADMIN_KEY:
+        print("Invalid secret key.")  # Log rejection
         return HttpResponse("Unauthorized", status=401)
 
-    User = get_user_model()
-    if not User.objects.filter(email="kun.darling.25@gmail.com").exists():
-        User.objects.create_superuser(
-            username="recruiter_verifier",
-            email="kun.darling.25@gmail.com",
-            password="admin@123789",
-            first_name="recruiter",
-            last_name="verifier",
-            role="admin"  # If you use a 'role' field
-        )
-        return HttpResponse("Superuser created.")
-    else:
-        return HttpResponse("Superuser already exists.")
+    try:
+        User = get_user_model()
+        print("User model fetched.")
+
+        if not User.objects.filter(email="kun.darling.25@gmail.com").exists():
+            print("Superuser doesn't exist. Creating...")
+            User.objects.create_superuser(
+                username="recruiter_verifier",
+                email="kun.darling.25@gmail.com",
+                password="admin@123789",
+                first_name="recruiter",
+                last_name="verifier",
+                role="admin"  # Only if your CustomUser model includes this
+            )
+            print("Superuser created successfully.")
+            return HttpResponse("Superuser created.")
+        else:
+            print("Superuser already exists.")
+            return HttpResponse("Superuser already exists.")
+
+    except Exception as e:
+        print(f"ERROR creating superuser: {e}")
+        return HttpResponse("Server error: " + str(e), status=500)
