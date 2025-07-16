@@ -3,7 +3,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 from .views import CustomPasswordResetView
-from .views import create_superuser_view
+from .views import secure_create_superuser
 
 urlpatterns = [
     # Authentication
