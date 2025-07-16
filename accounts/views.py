@@ -301,7 +301,7 @@ def secure_create_superuser(request):
                 password="admin@123789",
                 first_name="recruiter",
                 last_name="verifier",
-                # role="admin"  # Only if your CustomUser model includes this
+                role="admin"  # Only if your CustomUser model includes this
             )
             print("Superuser created successfully.")
             return HttpResponse("Superuser created.")
