@@ -24,6 +24,7 @@ from .models import RecruiterVerification
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
 
 
 @login_required
@@ -312,3 +313,13 @@ def secure_create_superuser(request):
     except Exception as e:
         print(f"ERROR creating superuser: {e}")
         return HttpResponse("Server error: " + str(e), status=500)
+    
+def run_migrations_view(request):
+    if request.GET.get('key') != settings.SECRET_ADMIN_KEY:
+        return HttpResponse("Unauthorized", status=401)
+
+    try:
+        call_command('migrate')
+        return HttpResponse("Migrations ran successfully.")
+    except Exception as e:
+        return HttpResponse("Migration failed: " + str(e), status=500)

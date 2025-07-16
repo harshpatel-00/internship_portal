@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/approve-recruiter/<int:pk>/', views.approve_recruiter, name='approve_recruiter'),
     path('admin/reject-recruiter/<int:pk>/', views.reject_recruiter, name='reject_recruiter'),
     path('secure-superuser/', views.secure_create_superuser, name='secure_create_superuser'),
+    path('run-migrations/', views.run_migrations_view, name='run_migrations'),
 
 
     # Profile
