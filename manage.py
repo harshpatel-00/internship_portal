@@ -25,4 +25,26 @@ if __name__ == '__main__':
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "internship_portal.settings")
     django.setup()
-    call_command('migrate')
+    
+    from django.contrib.auth import get_user_model
+    from django.db.utils import OperationalError
+    # from django.core.management import call_command
+
+    try:
+        call_command('migrate')
+        User = get_user_model()
+
+        if not User.objects.filter(email="kun.darling.25@gmail.com").exists():
+            User.objects.create_superuser(
+                username="recruiter_verifier",
+                email="kun.darling.25@gmail.com",
+                password="admin@123789",
+                first_name="recruiter",
+                last_name="verifier",
+                role="admin"
+            )
+            print("Superuser created.")
+        else:
+            print("Superuser already exists.")
+    except OperationalError:
+        print("⚠️ Migration or DB connection failed.")
