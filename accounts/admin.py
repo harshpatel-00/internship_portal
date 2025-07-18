@@ -1,23 +1,22 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
-from .models import RecruiterVerification
+from .models import User, RecruiterVerification
 
 class CustomUserAdmin(BaseUserAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if obj and obj.role == 'admin':
-            for field in ['user_permissions', 'groups', 'is_superuser', 'is_staff']:
+            for field in ['user_permission', 'group', 'is_superuser', 'is_staff']:
                 if field in form.base_fields:
                     form.base_fields.pop(field)
-                    
         return form
-    
-def get_queryset(self, request):
-    qs = super().get_queryset(request)
-    if request.user.is_superuser:
-        return qs
-    return qs.exclude(role='students')
+
+    def get_queryset(self, request):  # ✅ FIXED INDENTATION!
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.exclude(role='students')
+
 admin.site.register(User, CustomUserAdmin)
 
 @admin.register(RecruiterVerification)
