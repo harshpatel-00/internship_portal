@@ -14,13 +14,13 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h4 class="card-title">{{ internship.title }}</h4>
-                <p><strong>Company:</strong> {{ internship.posted_by.company_name }}</p>
+                <p><strong>Company:</strong> {{ internship.company_name }}</p>
                 <p><strong>Location:</strong> {{ internship.location }}</p>
                 <p><strong>Stipend:</strong> {{ internship.stipend }}</p>
                 <p><strong>Duration:</strong> {{ internship.duration }}</p>
                 <p>{{ internship.description }}</p>
 
-                {% if user.is_authenticated and user.role == 'student' %}
+                {% if user.is_authenticated and user.role == 'students' %}
                     {% if internship.id in applied_ids %}
                         <span class="badge bg-secondary">Already Applied</span>
                     {% else %}
