@@ -9,47 +9,57 @@
             <form method="post">
                 {% csrf_token %}
                 
-                <div class="row mb-3">
-                    <div class="col">
-                        <label for="id_first_name" class="form-label">First Name</label>
+                {% if user.role == 'student' %}
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
                         {{ form.first_name|add_class:"form-control" }}
                     </div>
-                    <div class="col">
-                        <label for="id_last_name" class="form-label">Last Name</label>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
                         {{ form.last_name|add_class:"form-control" }}
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        {{ form.email|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile_number" class="form-label">Mobile Number</label>
+                        {{ form.mobile_number|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        {{ form.location|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="college_name" class="form-label">College Name</label>
+                        {{ form.college_name|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_semester_grade" class="form-label">Last Semester Grade (CPI/SPI/CGPA)</label>
+                        {{ form.last_semester_grade|add_class:"form-control" }}
+                    </div>
 
-                <div class="mb-3">
-                    <label for="id_email" class="form-label">Email</label>
-                    {{ form.email|add_class:"form-control" }}
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_mobile_number" class="form-label">Mobile Number</label>
-                    {{ form.mobile_number|add_class:"form-control" }}
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_location" class="form-label">Location</label>
-                    {{ form.location|add_class:"form-control" }}
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_college_name" class="form-label">College Name</label>
-                    {{ form.college_name|add_class:"form-control" }}
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_last_semester_grade" class="form-label">Last Semester Grade (CPI/SPI/CGPA)</label>
-                    {{ form.last_semester_grade|add_class:"form-control" }}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">Date Joined</label>
-                    <input type="text" value="{{ user.date_joined|date:"Y-m-d H:i" }}" class="form-control" disabled>
-                </div>
-
+                {% elif user.role == 'recruiter' %}
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        {{ form.first_name|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        {{ form.last_name|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        {{ form.email|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_joined" class="form-label">Date Joined</label>
+                        {{ form.date_joined|add_class:"form-control" }}
+                    </div>
+                {% endif %}
+                {% for error in form.non_field_errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
 
                 <div class="d-grid mb-2">
                     <button type="submit" class="btn btn-success">Save Changes</button>

@@ -62,6 +62,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'my_applications' %}">My Applications</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">My Profile</a></li>
                     {% elif user.role == 'recruiter' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'recruiter_dashboard' %}">Home</a></li>                    
                         <li class="nav-item"><a class="nav-link" href="{% url 'create_internship' %}">Post Internship</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'recruiter_applicants' %}">View Applicants</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">My Profile</a></li>
