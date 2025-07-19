@@ -146,7 +146,7 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     user = request.user
-    if user.role == 'student':
+    if user.role == 'students':
         form_class = ProfileUpdateForm
         redirect_url = 'internship_list'
     elif user.role == 'recruiter':
